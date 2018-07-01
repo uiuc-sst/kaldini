@@ -1,14 +1,12 @@
-# kaldini
-
-Usage:
+## Usage:
 ```
 git clone https://www.github.com/kaldi-asr/kaldi
 mkdir kaldi/egs
 git clone https://www.github.com/uiuc-sst/kaldini
 cd kaldini
-ln -s ../wsj/s5/steps steps
-ln -s ../wsj/s5/utils utils
 ```
 
-Then you need to edit run.sh in order to point to the language and source directories for the
-native informant and incident language input files, then type ```./run.sh```.
+Change the variables at the top of run.sh to point to the language and source directories
+of the native informant and incident language input files.
+
+`./run.sh`
