@@ -46,7 +46,7 @@ IL_PHONELIST=${CORPUS_ROOT}/phones.txt
 
 NUMLEAVES=1200
 NUMGAUSSIANS=8000
-nproc=1
+nproc=56
 
 [ -f cmd.sh ] && . ./cmd.sh || echo "cmd.sh not found. Jobs may not execute properly."
 
@@ -101,7 +101,7 @@ mfccdir=mfcc/$L
 mkdir -p $mfccdir
 for x in train dev eval; do
     (
-    steps/make_mfcc.sh --nj $(nproc) --cmd "$train_cmd" data/$L/$x exp/$L/make_mfcc/$x $mfccdir
+    steps/make_mfcc.sh --nj $nproc --cmd "$train_cmd" data/$L/$x exp/$L/make_mfcc/$x $mfccdir
 	steps/compute_cmvn_stats.sh data/$L/$x exp/$L/make_mfcc/$x $mfccdir
     ) &
 done
@@ -109,13 +109,13 @@ wait
 
 # Monophone training.
 mkdir -p exp/$L/mono;
-steps/train_mono.sh --nj $(nproc) --cmd "$train_cmd" data/$L/train data/$L/lang exp/$L/mono || exit 1
+steps/train_mono.sh --nj $nproc --cmd "$train_cmd" data/$L/train data/$L/lang exp/$L/mono || exit 1
 
 graph_dir=exp/$L/mono/graph
 mkdir -p $graph_dir
 utils/mkgraph.sh data/$L/lang exp/$L/mono $graph_dir || exit 1
 
-steps/decode.sh --nj $(nproc) --cmd "$decode_cmd" $graph_dir data/$L/dev exp/$L/mono/decode_dev_$L &
+steps/decode.sh --nj $nproc --cmd "$decode_cmd" $graph_dir data/$L/dev exp/$L/mono/decode_dev_$L &
 wait
 
 # Find scoring options for the eval scoring.  Best 
@@ -124,7 +124,7 @@ scoring_opts=`grep WER exp/$L/mono/decode_dev_$L/wer_* | utils/best_wer.sh | tee
   perl -e '$_=<STDIN>;$pat=qw{wer_(\d+)_([\d\.]+)}; if(/$pat/){print("\"--word_ins_penalty $2 --min_lmwt $1 --max_lmwt $1\"\n")}'`
 
 # Eval scoring: use only the wip and lmwt that were best in the dev set
-steps/decode.sh --scoring_opts "\"$scoring_opts\"" --nj $(nproc) --cmd "$decode_cmd" $graph_dir data/$L/eval exp/$L/mono/decode_eval_$L &
+steps/decode.sh --scoring_opts "\"$scoring_opts\"" --nj $nproc --cmd "$decode_cmd" $graph_dir data/$L/eval exp/$L/mono/decode_eval_$L &
 wait
 
 cp exp/$L/mono/decode_eval_$L/scoring_kaldi/pen*/*.txt exp/$L/mono/decode_eval_$L/transcription_result.txt
