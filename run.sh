@@ -46,6 +46,7 @@ IL_PHONELIST=${CORPUS_ROOT}/phones.txt
 
 NUMLEAVES=1200
 NUMGAUSSIANS=8000
+nproc=1
 
 [ -f cmd.sh ] && . ./cmd.sh || echo "cmd.sh not found. Jobs may not execute properly."
 
