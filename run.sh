@@ -27,7 +27,8 @@
 
 # Language ID
 L=swh # Swahili
-CORPUS_ROOT=/Users/jhasegaw/data/2018jun/$L
+#CORPUS_ROOT=/Users/jhasegaw/data/2018jun/$L
+CORPUS_ROOT=/home/jhasegaw/$L
 
 # Audio files: train, dev, and eval.
 NI_CORPUS=${CORPUS_ROOT}/all/audio/
@@ -109,7 +110,7 @@ wait
 
 # Monophone training.
 mkdir -p exp/$L/mono;
-steps/train_mono.sh --nj $nproc --cmd "$train_cmd" data/$L/train data/$L/lang exp/$L/mono || exit 1
+local/train_mono.sh --nj $nproc --cmd "$train_cmd" data/$L/train data/$L/lang exp/$L/mono || exit 1
 
 graph_dir=exp/$L/mono/graph
 mkdir -p $graph_dir
