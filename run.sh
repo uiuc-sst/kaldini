@@ -97,6 +97,7 @@ utils/format_lm.sh data/$L/lang data/$L/lang/lm.arpa.gz data/$L/dict/lexicon.txt
 
 echo "$0: MFCC prep"
 mfccdir=mfcc/$L
+mkdir -p $mfccdir
 for x in train dev eval; do
     (
     steps/make_mfcc.sh --nj $(nproc) --cmd "$train_cmd" data/$L/$x exp/$L/make_mfcc/$x $mfccdir
