@@ -55,7 +55,7 @@ if [[ $num_train_files -eq 0 || $num_eval_files -eq 0 ]]; then
     echo "No utterances found in $LISTDIR/train.txt OR $LISTDIR/eval.txt" && exit 1
 fi
 
-command -v sox 1>/dev/null 2>&1 || { echo "$0: sox is not installed.  Aborting."; exit 1 }
+command -v sox 1>/dev/null 2>&1 || exit 1
 
 echo "$0: creating a directory for downsampled WAV files"
 mkdir -p data/$LCODE/wav # directory storing all the downsampled WAV files
@@ -92,10 +92,10 @@ for x in train dev eval; do
         fi
         set -e
     done < "$file"
-
+    
     [[ "$nsoxerr" -gt 0 ]] && echo "sox: error converting following $nsoxerr file(s):" >&2
     [ -f "$soxerr" ] && cat "$soxerr" >&2
-
+    
     echo "$0: Prepare ${x}_wav.scp"
     sed -e "s:.*/::" -e 's:.wav$::' $tmpdir/downsample/${x}_wav > $tmpdir/downsample/${x}_basenames_wav
     paste $tmpdir/downsample/${x}_basenames_wav $tmpdir/downsample/${x}_wav | sort -k1,1 > data/${LCODE}/$x/wav.scp
@@ -103,12 +103,12 @@ for x in train dev eval; do
     echo "$0: Prepare ${x}_utt2spk and ${x}_spk2utt"
     sed -e 's:\-.*$::' $tmpdir/downsample/${x}_basenames_wav | \
         paste -d' ' $tmpdir/downsample/${x}_basenames_wav - | sort -t' ' -k1,1 \
-        > data/${LCODE}/$x/utt2spk
-
+								   > data/${LCODE}/$x/utt2spk
+    
     ./utils/utt2spk_to_spk2utt.pl data/${LCODE}/$x/utt2spk > data/${LCODE}/$x/spk2utt || exit 1
-
+    
     echo "$0: preparing ${x}_text"
     ( for i in `cat $LISTDIR/${x}.txt | sed 's/\.wav//g'`; do
-	LC_ALL=en_US.UTF-8 grep $i $TRANSFILE
-	done ) | LC_ALL=en_US.UTF-8 sort -k1,1 > data/${LCODE}/$x/text
+	  LC_ALL=en_US.UTF-8 grep $i $TRANSFILE
+      done ) | LC_ALL=en_US.UTF-8 sort -k1,1 > data/${LCODE}/$x/text
 done

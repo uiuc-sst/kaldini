@@ -7,23 +7,42 @@
 # Adapted from https://github.com/ws15code/SBS-mul.
 
 # Language ID
-L=tam # Tamil
-CORPUS_ROOT=/Users/jhasegaw/data/2018march/$L
+#L=tam # Tamil
+#CORPUS_ROOT=/Users/jhasegaw/data/2018march/$L
 
 # Audio files: train, dev, and eval.
-NI_CORPUS=${CORPUS_ROOT}/ni/01/audio/
+#NI_CORPUS=${CORPUS_ROOT}/ni/01/audio/
 
 # Transcriptions: train.txt, dev.txt.
-NI_TRANSCRIPTS=${CORPUS_ROOT}/ni/01/labels/labels.txt
+#NI_TRANSCRIPTS=${CORPUS_ROOT}/ni/01/labels/labels.txt
 
 # {train,dev,eval}.txt, each containing one filename per line.
-NI_LISTDIR=${CORPUS_ROOT}/ni/01/lists/
+#NI_LISTDIR=${CORPUS_ROOT}/ni/01/lists/
 
 # These come from mkprondict2.py and Gina.
-IL_LEXICON=${CORPUS_ROOT}/mark/tamil_prondict_ref.txt
-IL_LM=${CORPUS_ROOT}/mark/lm.arpa
-IL_WORDLIST=${CORPUS_ROOT}/mark/words.txt
-IL_PHONELIST=${CORPUS_ROOT}/mark/phones.txt
+#IL_LEXICON=${CORPUS_ROOT}/mark/tamil_prondict_ref.txt
+#IL_LM=${CORPUS_ROOT}/mark/lm.arpa
+#IL_WORDLIST=${CORPUS_ROOT}/mark/words.txt
+#IL_PHONELIST=${CORPUS_ROOT}/mark/phones.txt
+
+# Language ID
+L=swh # Swahili
+CORPUS_ROOT=/Users/jhasegaw/data/2018jun/$L
+
+# Audio files: train, dev, and eval.
+NI_CORPUS=${CORPUS_ROOT}/all/audio/
+
+# Transcriptions: train.txt, dev.txt.
+NI_TRANSCRIPTS=${CORPUS_ROOT}/all/transcription.txt
+
+# {train,dev,eval}.txt, each containing one filename per line.
+NI_LISTDIR=${CORPUS_ROOT}/all/list/
+
+# These come from mkprondict2.py and Gina.
+IL_LEXICON=${CORPUS_ROOT}/local/dict/lexicon.txt
+IL_LM=${CORPUS_ROOT}/lm.arpa.gina
+IL_WORDLIST=${CORPUS_ROOT}/local/dict/words.txt
+IL_PHONELIST=${CORPUS_ROOT}/phones.txt
 
 NUMLEAVES=1200
 NUMGAUSSIANS=8000
