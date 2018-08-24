@@ -1,7 +1,9 @@
 ## Usage:
 ```
 git clone https://www.github.com/kaldi-asr/kaldi
-mkdir kaldi/egs
+cd kaldi/tools; make -j $(nproc)
+cd ../src;      ./configure --shared && make depend -j $(nproc) && make -j $(nproc)
+cd ..;          mkdir egs
 git clone https://www.github.com/uiuc-sst/kaldini
 cd kaldini
 ```
