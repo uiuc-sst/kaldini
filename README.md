@@ -1,3 +1,9 @@
+## kaldini
+
+Train and test an ASR from scratch using the kind of data that you can get from
+a small group of native informants in a new language in about five hours of contact 
+time, i.e., only about 1000 read sentences.
+
 ## Usage:
 ```
 git clone https://www.github.com/kaldi-asr/kaldi
